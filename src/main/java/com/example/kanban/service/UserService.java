@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
 
     public Result createUser(User user) {
         if (user.getUsername() == null || user.getUsername().length() < 5)
-            return UserResult.UserCreated;
+            return UserResult.TooShortName;
         if (user.getPassword() == null || user.getPassword().length() < 5)
             return UserResult.TooShortPassword;
         if (userRepository.findByName(user.getUsername()) != null)
