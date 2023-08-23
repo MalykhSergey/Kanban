@@ -1,7 +1,10 @@
 package com.example.kanban.controller;
 
 import com.example.kanban.entity.User;
+import com.example.kanban.result.Result;
+import com.example.kanban.result.UserResult;
 import com.example.kanban.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +22,10 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody User user) {
-        return userService.createUser(user).getMessage();
+    public String createUser(HttpServletResponse httpServletResponse, @RequestBody User user) {
+        Result result = userService.createUser(user);
+        if (result != UserResult.UserCreated)
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return result.getMessage();
     }
 }
