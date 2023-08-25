@@ -4,17 +4,21 @@ import com.example.kanban.entity.User;
 import com.example.kanban.repository.UserRepository;
 import com.example.kanban.result.Result;
 import com.example.kanban.result.UserResult;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements AuthenticationProvider {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,10 +37,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
-        if (user == null)
-            throw new UsernameNotFoundException("Invalid credentials");
-        return user;
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        User user = userRepository.findByName(authentication.getName());
+        if (user != null) {
+            if (passwordEncoder.matches(authentication.getCredentials().toString(),user.getPassword()))
+                return user;
+        }
+        throw new BadCredentialsException("Invalid credentials!");
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }
