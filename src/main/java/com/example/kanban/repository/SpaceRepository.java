@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SpaceRepository extends JpaRepository<Space, Integer> {
-    @Query(value = "SELECT * FROM users_spaces WHERE ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM spaces where id in " +
+            "(SELECT space_id FROM users_spaces WHERE user_id = ?1)", nativeQuery = true)
     List<Space> findAllByUserId(int userId);
 }

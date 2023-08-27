@@ -12,6 +12,8 @@ public class Space {
     private int id;
     private String name;
 
+    private int userId;
+
     public int getId() {
         return id;
     }
@@ -26,5 +28,13 @@ public class Space {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int user_id) {
+        this.userId = user_id;
     }
 }
