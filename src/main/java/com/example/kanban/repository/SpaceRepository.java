@@ -10,4 +10,7 @@ public interface SpaceRepository extends JpaRepository<Space, Integer> {
     @Query(value = "SELECT * FROM spaces where id in " +
             "(SELECT space_id FROM users_spaces WHERE user_id = ?1)", nativeQuery = true)
     List<Space> findAllByUserId(int userId);
+
+    @Query(value = "INSERT INTO users_spaces values (?1,?2)", nativeQuery = true)
+    void saveUsersSpace(int userId, int spaceId);
 }
