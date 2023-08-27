@@ -3,7 +3,9 @@ package com.example.kanban.controller;
 import com.example.kanban.entity.Space;
 import com.example.kanban.entity.User;
 import com.example.kanban.repository.SpaceRepository;
+import com.example.kanban.result.SpaceResult;
 import com.example.kanban.service.SpaceService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,13 @@ public class SpaceController {
     }
 
     @PostMapping
-    public String createSpace(@AuthenticationPrincipal User user, @RequestBody Space space) {
+    public String createSpace(@AuthenticationPrincipal User user, @RequestBody Space space, HttpServletResponse httpServletResponse) {
         space.setUserId(user.getId());
-        return spaceService.createSpace(space).getMessage();
+        SpaceResult spaceResult = spaceService.createSpace(space);
+        if (spaceResult!= SpaceResult.SpaceCreated) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return spaceResult.getMessage();
+        }
+        return String.valueOf(spaceResult.getSpaceId());
     }
 }
