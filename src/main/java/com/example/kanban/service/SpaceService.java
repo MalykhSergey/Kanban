@@ -24,4 +24,8 @@ public class SpaceService {
         spaceCreated.setSpaceId(space.getId());
         return spaceCreated;
     }
+
+    public boolean checkUserExistsInSpace(int userId, int spaceId) {
+        return !spaceRepository.findUserInSpace(userId, spaceId).isEmpty();
+    }
 }
