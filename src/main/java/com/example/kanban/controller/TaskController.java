@@ -4,10 +4,7 @@ import com.example.kanban.entity.Task;
 import com.example.kanban.entity.User;
 import com.example.kanban.service.TaskService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,11 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getTasksBySpaceId(@AuthenticationPrincipal User user, @RequestParam("spaceId") int spaceId) {
-        return taskService.getTasksByUserIdAndSpaceId(user.getId(),spaceId);
+        return taskService.getTasksByUserIdAndSpaceId(user.getId(), spaceId);
+    }
+
+    @PostMapping
+    public String createTask(@AuthenticationPrincipal User user, @RequestBody Task task) {
+        return taskService.createTask(user.getId(), task).getMessage();
     }
 }
