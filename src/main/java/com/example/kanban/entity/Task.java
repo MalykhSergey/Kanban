@@ -10,12 +10,8 @@ public class Task {
     private int id;
     private String name;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "space_id")
-    private Space space;
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private User author;
+    private int space_id;
+    private int author_id;
 
     public int getId() {
         return id;
@@ -41,19 +37,19 @@ public class Task {
         this.description = description;
     }
 
-    public Space getSpace() {
-        return space;
+    public int getSpace_id() {
+        return space_id;
     }
 
-    public void setSpace(Space space) {
-        this.space = space;
+    public void setSpace_id(int space_id) {
+        this.space_id = space_id;
     }
 
-    public User getAuthor() {
-        return author;
+    public int getAuthor_id() {
+        return author_id;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthor_id(int author_id) {
+        this.author_id = author_id;
     }
 }
