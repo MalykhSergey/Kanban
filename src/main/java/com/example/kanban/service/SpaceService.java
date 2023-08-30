@@ -19,7 +19,7 @@ public class SpaceService {
     @Transactional
     public SpaceResult createSpace(Space space) {
         spaceRepository.save(space);
-        spaceRepository.saveUsersSpace(space.getUserId(), space.getId());
+        spaceRepository.saveUsersSpace(space.getAuthorId(), space.getId());
         SpaceResult spaceCreated = SpaceResult.SpaceCreated;
         spaceCreated.setSpaceId(space.getId());
         return spaceCreated;

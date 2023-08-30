@@ -10,7 +10,7 @@ public class Space {
     private int id;
     private String name;
 
-    private int userId;
+    private int authorId;
 
     public int getId() {
         return id;
@@ -28,11 +28,11 @@ public class Space {
         this.name = name;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setUserId(int user_id) {
-        this.userId = user_id;
+    public void setAuthorId(int user_id) {
+        this.authorId = user_id;
     }
 }

@@ -29,7 +29,7 @@ public class SpaceController {
 
     @PostMapping
     public String createSpace(@AuthenticationPrincipal User user, @RequestBody Space space, HttpServletResponse httpServletResponse) {
-        space.setUserId(user.getId());
+        space.setAuthorId(user.getId());
         SpaceResult spaceResult = spaceService.createSpace(space);
         if (spaceResult!= SpaceResult.SpaceCreated) {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
