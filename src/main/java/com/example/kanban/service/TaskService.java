@@ -21,7 +21,7 @@ public class TaskService {
     }
 
     public TaskResult createTask(int userId, Task task) {
-        if (spaceService.checkUserExistsInSpace(userId, task.getSpace_id())) {
+        if (spaceService.checkUserExistsInSpace(userId, task.getSpaceId())) {
             taskRepository.save(task);
             return TaskResult.TaskCreated;
         }

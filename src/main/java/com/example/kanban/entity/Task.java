@@ -10,8 +10,8 @@ public class Task {
     private int id;
     private String name;
     private String description;
-    private int space_id;
-    private int author_id;
+    private int spaceId;
+    private int authorId;
 
     public int getId() {
         return id;
@@ -37,19 +37,19 @@ public class Task {
         this.description = description;
     }
 
-    public int getSpace_id() {
-        return space_id;
+    public int getSpaceId() {
+        return spaceId;
     }
 
-    public void setSpace_id(int space_id) {
-        this.space_id = space_id;
+    public void setSpaceId(int space_id) {
+        this.spaceId = space_id;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor_id(int author_id) {
-        this.author_id = author_id;
+    public void setAuthorId(int author_id) {
+        this.authorId = author_id;
     }
 }
