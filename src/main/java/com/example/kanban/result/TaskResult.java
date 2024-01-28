@@ -2,7 +2,8 @@ package com.example.kanban.result;
 
 public enum TaskResult implements Result {
     TaskCreated("Task successfully created!"),
-    UsersIsNotExistsInSpace("User isn't exists in space!");
+    UsersIsNotExistsInSpace("User isn't exists in space!"),
+    TaskUpdated("Task successfully updated!");
     private final String message;
 
     TaskResult(String message) {

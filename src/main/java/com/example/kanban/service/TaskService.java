@@ -33,4 +33,12 @@ public class TaskService {
             return taskRepository.findAllBySpaceId(spaceId);
         } else return new ArrayList<>();
     }
+
+    public TaskResult updateTask(int userId, Task task) {
+        if (spaceService.checkUserExistsInSpace(userId, task.getSpaceId())) {
+            taskRepository.save(task);
+            return TaskResult.TaskUpdated;
+        }
+        return TaskResult.UsersIsNotExistsInSpace;
+    }
 }
