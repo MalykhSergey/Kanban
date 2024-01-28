@@ -1,6 +1,7 @@
 package com.example.kanban.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "tasks")
@@ -12,6 +13,11 @@ public class Task {
     private String description;
     private int spaceId;
     private int authorId;
+    private TaskStatus status;
+
+    public Task() {
+        status = TaskStatus.Created;
+    }
 
     public int getId() {
         return id;
@@ -51,5 +57,13 @@ public class Task {
 
     public void setAuthorId(int author_id) {
         this.authorId = author_id;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus taskStatus) {
+        this.status = taskStatus;
     }
 }
