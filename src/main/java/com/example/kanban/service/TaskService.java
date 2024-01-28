@@ -41,4 +41,12 @@ public class TaskService {
         }
         return TaskResult.UsersIsNotExistsInSpace;
     }
+
+    public TaskResult deleteTask(int userId, Task task) {
+        if (spaceService.checkUserExistsInSpace(userId, task.getSpaceId())) {
+            taskRepository.delete(task);
+            return TaskResult.TaskDeleted;
+        }
+        return TaskResult.UsersIsNotExistsInSpace;
+    }
 }

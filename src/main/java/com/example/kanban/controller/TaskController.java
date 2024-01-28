@@ -2,7 +2,6 @@ package com.example.kanban.controller;
 
 import com.example.kanban.entity.Task;
 import com.example.kanban.entity.User;
-import com.example.kanban.result.TaskResult;
 import com.example.kanban.service.TaskService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +29,9 @@ public class TaskController {
     @PutMapping
     public String updateTask(@AuthenticationPrincipal User user, @RequestBody Task task){
         return taskService.updateTask(user.getId(),task).getMessage();
+    }
+
+    @DeleteMapping String deleteTask(@AuthenticationPrincipal User user, @RequestBody Task task){
+        return taskService.deleteTask(user.getId(),task).getMessage();
     }
 }
