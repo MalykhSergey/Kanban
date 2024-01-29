@@ -5,7 +5,8 @@ public enum UserResult implements Result {
     UserCreated("User successfully created!"),
     UserIsExists("User already exists!"),
     TooShortPassword("Password must be longer!"),
-    TooShortName("Name must be longer!");
+    TooShortName("Name must be longer!"),
+    UserNotFound("User with this name not found!");
     private final String message;
 
     UserResult(String message) {

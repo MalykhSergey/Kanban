@@ -3,7 +3,10 @@ package com.example.kanban.controller;
 import com.example.kanban.entity.Space;
 import com.example.kanban.entity.User;
 import com.example.kanban.repository.SpaceRepository;
+import com.example.kanban.repository.UserRepository;
+import com.example.kanban.result.Result;
 import com.example.kanban.result.SpaceResult;
+import com.example.kanban.result.UserResult;
 import com.example.kanban.service.SpaceService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +18,12 @@ import java.util.List;
 @RequestMapping("/spaces")
 public class SpaceController {
     private final SpaceRepository spaceRepository;
+    private final UserRepository userRepository;
     private final SpaceService spaceService;
 
-    public SpaceController(SpaceRepository spaceRepository, SpaceService spaceService) {
+    public SpaceController(SpaceRepository spaceRepository, UserRepository userRepository, SpaceService spaceService) {
         this.spaceRepository = spaceRepository;
+        this.userRepository = userRepository;
         this.spaceService = spaceService;
     }
 
@@ -27,14 +32,27 @@ public class SpaceController {
         return spaceRepository.findAllByUserId(user.getId());
     }
 
+    @GetMapping("/{spaceId}/users")
+    public List<User> getAllUsersOfSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId) {
+        List<User> allUsersBySpaceId = userRepository.findAllUsersBySpaceId(spaceId);
+        return allUsersBySpaceId;
+    }
+
+    @PostMapping("/{spaceId}/users")
+    public String addUserToSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId, @RequestParam("userName") String userName, HttpServletResponse httpServletResponse) {
+        Result result = spaceService.addUser(userName, spaceId);
+        if (result == UserResult.UserNotFound)
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return result.getMessage();
+    }
+
     @PostMapping
     public String createSpace(@AuthenticationPrincipal User user, @RequestBody Space space, HttpServletResponse httpServletResponse) {
         space.setAuthorId(user.getId());
         SpaceResult spaceResult = spaceService.createSpace(space);
-        if (spaceResult!= SpaceResult.SpaceCreated) {
+        if (spaceResult != SpaceResult.SpaceCreated) {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return spaceResult.getMessage();
         }
-        return String.valueOf(spaceResult.getSpaceId());
+        return spaceResult.getMessage();
     }
 }

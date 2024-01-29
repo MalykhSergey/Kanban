@@ -1,10 +1,9 @@
 package com.example.kanban.result;
 
 public enum SpaceResult implements Result {
-    SpaceCreated("Space successfully created!");
+    SpaceCreated("Space successfully created!"),
+    UserAdded("User successfully added to Space!");
     private final String message;
-    private int spaceId = 0;
-
     SpaceResult(String message) {
         this.message = message;
     }
@@ -14,11 +13,4 @@ public enum SpaceResult implements Result {
         return message;
     }
 
-    public int getSpaceId() {
-        return spaceId;
-    }
-
-    public void setSpaceId(int spaceId) {
-        this.spaceId = spaceId;
-    }
 }

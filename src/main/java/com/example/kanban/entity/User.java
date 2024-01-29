@@ -1,7 +1,6 @@
 package com.example.kanban.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +16,10 @@ public class User implements UserDetails, Authentication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -43,34 +44,41 @@ public class User implements UserDetails, Authentication {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
     @Override
+    @JsonIgnore
     public Object getCredentials() {
         return password;
     }
 
     @Override
+    @JsonIgnore
     public Object getDetails() {
         return name;
     }
 
     @Override
+    @JsonIgnore
     public Object getPrincipal() {
         return this;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAuthenticated() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -80,26 +88,31 @@ public class User implements UserDetails, Authentication {
         this.password = password;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean implies(Subject subject) {
         return Authentication.super.implies(subject);
