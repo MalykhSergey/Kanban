@@ -2,7 +2,9 @@ package com.example.kanban.controller;
 
 import com.example.kanban.entity.Task;
 import com.example.kanban.entity.User;
+import com.example.kanban.result.TaskResult;
 import com.example.kanban.service.TaskService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +25,24 @@ public class TaskController {
     }
 
     @PostMapping
-    public String createTask(@AuthenticationPrincipal User user, @RequestBody Task task) {
-        return taskService.createTask(user.getId(), task).getMessage();
+    public String createTask(@AuthenticationPrincipal User user, @RequestBody Task task, HttpServletResponse httpServletResponse) {
+        TaskResult taskResult = taskService.createTask(user.getId(), task);
+        if (taskResult != TaskResult.TaskCreated)
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return taskResult.getMessage();
     }
     @PutMapping
-    public String updateTask(@AuthenticationPrincipal User user, @RequestBody Task task){
-        return taskService.updateTask(user.getId(),task).getMessage();
+    public String updateTask(@AuthenticationPrincipal User user, @RequestBody Task task, HttpServletResponse httpServletResponse){
+        TaskResult taskResult = taskService.updateTask(user.getId(), task);
+        if (taskResult != TaskResult.TaskUpdated)
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return taskResult.getMessage();
     }
 
-    @DeleteMapping String deleteTask(@AuthenticationPrincipal User user, @RequestBody Task task){
-        return taskService.deleteTask(user.getId(),task).getMessage();
+    @DeleteMapping String deleteTask(@AuthenticationPrincipal User user, @RequestBody Task task, HttpServletResponse httpServletResponse){
+        TaskResult taskResult = taskService.deleteTask(user.getId(), task);
+        if (taskResult != TaskResult.TaskDeleted)
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return taskResult.getMessage();
     }
 }
