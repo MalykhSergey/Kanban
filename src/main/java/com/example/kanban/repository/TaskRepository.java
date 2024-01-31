@@ -10,4 +10,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Query(value = "SELECT * FROM tasks WHERE space_id = ?1", nativeQuery = true)
     List<Task> findAllBySpaceId(int spaceId);
 
+    void deleteAllBySpaceId(int spaceId);
+
 }

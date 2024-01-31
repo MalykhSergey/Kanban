@@ -45,6 +45,15 @@ public class SpaceController {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return result.getMessage();
     }
+    @DeleteMapping("/{spaceId}/users")
+    public String deleteUserFromSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId, @RequestParam("userId") int userId, HttpServletResponse httpServletResponse) {
+        return spaceService.deleteSpace(userId, spaceId).getMessage();
+    }
+
+    @DeleteMapping()
+    public String deleteUserFromSpace(@AuthenticationPrincipal User user, @RequestParam("spaceId") int spaceId) {
+        return spaceService.deleteSpace(user.getId(), spaceId).getMessage();
+    }
 
     @PostMapping
     public String createSpace(@AuthenticationPrincipal User user, @RequestBody Space space, HttpServletResponse httpServletResponse) {
