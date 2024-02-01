@@ -33,21 +33,20 @@ public class SpaceController {
     }
 
     @GetMapping("/{spaceId}/users")
-    public List<User> getAllUsersOfSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId) {
-        List<User> allUsersBySpaceId = userRepository.findAllUsersBySpaceId(spaceId);
-        return allUsersBySpaceId;
+    public List<User> getAllUsersOfSpace(@PathVariable("spaceId") int spaceId) {
+        return userRepository.findAllUsersBySpaceId(spaceId);
     }
 
     @PostMapping("/{spaceId}/users")
-    public String addUserToSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId, @RequestParam("userName") String userName, HttpServletResponse httpServletResponse) {
+    public String addUserToSpace(@PathVariable("spaceId") int spaceId, @RequestParam("userName") String userName, HttpServletResponse httpServletResponse) {
         Result result = spaceService.addUser(userName, spaceId);
         if (result == UserResult.UserNotFound)
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return result.getMessage();
     }
     @DeleteMapping("/{spaceId}/users")
-    public String deleteUserFromSpace(@AuthenticationPrincipal User user, @PathVariable("spaceId") int spaceId, @RequestParam("userId") int userId, HttpServletResponse httpServletResponse) {
-        return spaceService.deleteSpace(userId, spaceId).getMessage();
+    public String deleteUserFromSpace(@PathVariable("spaceId") int spaceId, @RequestParam("userId") int userId) {
+        return spaceService.deleteUser(userId, spaceId).getMessage();
     }
 
     @DeleteMapping()
